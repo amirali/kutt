@@ -1,4 +1,5 @@
 import sys
+import os
 
 import click
 import requests
@@ -7,22 +8,21 @@ import json
 base_url = "https://kutt.it"
 try:
     if sys.platform == "win32":
-        for p in sys.path:
-            if 'site-packages' in p:
-                path = p
-                break
-        with open(path+'\\kutt-api.txt') as f:
+        with open("%APPDATA%\\kutt-cli\\apikey.txt") as f:
             API = f.read()
             f.close()
-    elif sys.platform == 'linux':
-        with open('~/.config/kutt-api.txt') as f:
+    else:
+        with open('$HOME/.kutt-cli/apikey.txt') as f:
             API = f.read()
             f.close()
 except:
-    print ("Get an API key from kutt.it and run `kutt --config-api`")
+    print ("Get an API key from kutt.it and run `kutt config-api`")
 
-headers = {"X-API-Key": API}
-
+try:
+    headers = {"X-API-Key": API}
+except:
+    pass
+    
 @click.group()
 def cli():
     """
@@ -53,18 +53,18 @@ def cli():
 def config_api():
     pyv = int(sys.version[0])
     if sys.platform == "win32":
-        for p in sys.path:
-        	if 'site-packages' in p:
-        		path = p
-        		break
-        with open(path+'\\kutt-api.txt', 'w') as f:
+        if not os.path.exists("%APPDATA%\\kutt-cli"):
+            os.makedirs("%APPDATA%\\kutt-cli")
+        with open("%APPDATA%\\kutt-cli\\apikey.txt", 'w') as f:
             if pyv < 3:
                 f.write(raw_input("API: "))
             else:
                 f.write(input("API: "))
             f.close()
     elif sys.platform == 'linux':
-        with open('~/.config/kutt-api.txt', 'w') as f:
+        if not os.path.exists("$HOME/.kutt-cli/"):
+            os.makedirs("$HOME/.kutt-cli/")
+        with open('$HOME/.kutt-cli/apikey.txt', 'w') as f:
             if pyv < 3:
                 f.write(raw_input("API: "))
             else:
