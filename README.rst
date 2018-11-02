@@ -1,7 +1,7 @@
 Kutt cli
 ========
 
-.. code-block::console
+::
 
   > pip install kutt
 
