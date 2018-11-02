@@ -9,3 +9,5 @@ __pycache__/*
 build/*
 dist/*
 kutt.egg-info/*
+*.pyc
+**.pyc
