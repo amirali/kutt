@@ -1,0 +1,11 @@
+.env/
+__pycache__/
+build/
+dist/
+kutt.egg-info/
+kutt.spec
+.env/*
+__pycache__/*
+build/*
+dist/*
+kutt.egg-info/*
