@@ -1,10 +1,26 @@
+import sys
+
 import click
 import requests
 import json
 
-# Config
-API = "gD_4dyhxe9S~G_GCn1KRm_9rrqiijMmtVztBwGNl"
 base_url = "https://kutt.it"
+try:
+    if sys.platform == "win32":
+        for p in sys.path:
+            if 'site-packages' in p:
+                path = p
+                break
+        with open(path+'\\kutt-api.txt') as f:
+            API = f.read()
+            f.close()
+    elif sys.platform == 'linux':
+        with open('~/.config/kutt-api.txt') as f:
+            API = f.read()
+            f.close()
+except:
+    print ("Get an API key from kutt.it and run `kutt --config-api`")
+
 headers = {"X-API-Key": API}
 
 @click.group()
@@ -32,6 +48,28 @@ def cli():
         > kutt list
     """
     pass
+
+@click.command()
+def config_api():
+    pyv = int(sys.version[0])
+    if sys.platform == "win32":
+        for p in sys.path:
+        	if 'site-packages' in p:
+        		path = p
+        		break
+        with open(path+'\\kutt-api.txt', 'w') as f:
+            if pyv < 3:
+                f.write(raw_input("API: "))
+            else:
+                f.write(input("API: "))
+            f.close()
+    elif sys.platform == 'linux':
+        with open('~/.config/kutt-api.txt', 'w') as f:
+            if pyv < 3:
+                f.write(raw_input("API: "))
+            else:
+                f.write(input("API: "))
+            f.close()
 
 @click.command('submit', short_help="Submit a new short URL")
 @click.argument('url', type=click.STRING)
@@ -109,6 +147,9 @@ def stats():
 cli.add_command(submit)
 cli.add_command(delete)
 cli.add_command(list)
+cli.add_command(config_api)
 
 if __name__ == "__main__":
+
+
     cli()

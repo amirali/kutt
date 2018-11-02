@@ -1,7 +1,7 @@
 Kutt cli
 ========
 
-Downlaod for windows from `Releases <https://github.com/univa64/kutt-cli/releases>`_ or:
+Signup in kutt.it and in setting menu generate an API Key and run `kutt config-api`
 
 ::
 
