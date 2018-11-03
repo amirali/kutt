@@ -8,7 +8,8 @@ import json
 base_url = "https://kutt.it"
 try:
     if sys.platform == "win32":
-        with open("%APPDATA%\\kutt-cli\\apikey.txt") as f:
+        APPDATA = os.getenv('APPDATA')
+        with open(APPDATA+"kutt-cli\\apikey.txt") as f:
             API = f.read()
             f.close()
     else:
@@ -53,9 +54,10 @@ def cli():
 def config_api():
     pyv = int(sys.version[0])
     if sys.platform == "win32":
-        if not os.path.exists("%APPDATA%\\kutt-cli"):
-            os.makedirs("%APPDATA%\\kutt-cli")
-        with open("%APPDATA%\\kutt-cli\\apikey.txt", 'w') as f:
+        APPDATA = os.getenv('APPDATA')
+        if not os.path.exists(APPDATA+"\\kutt-cli"):
+            os.makedirs(APPDATA+"\\kutt-cli")
+        with open(APPDATA+"\\kutt-cli\\apikey.txt", 'w') as f:
             if pyv < 3:
                 f.write(raw_input("API: "))
             else:
