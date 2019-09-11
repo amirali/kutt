@@ -7,6 +7,7 @@
 
 Signup in kutt.it and in setting menu generate an API Key and run `kutt config-api`
 
+(plz use python 3 for install and run kutt)
 ```
 > pip install kutt
 ```
