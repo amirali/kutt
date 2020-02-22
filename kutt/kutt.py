@@ -29,11 +29,11 @@ def delete(apikey, target):
     headers = {'X-API-Key': apikey}
 
     if "/" in target:
-        id = target.split('/')[-1]
+        link_id = target.split('/')[-1]
     else:
-        id = target
+        link_id = target
 
-    payload = {"id": id}
+    payload = {"id": link_id}
 
     r = requests.post(base_url+'/api/url/deleteurl', headers=headers, data=payload)
 
