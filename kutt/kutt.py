@@ -16,8 +16,8 @@ def submit(apikey, url, customurl=None, password=None, reuse=False):
     if reuse:
         payload['reuse'] = True
 
-    r = requests.post(base_url+'/api/url/submit', data=payload, headers=headers)
-    if not r.status_code == 200:
+    r = requests.post(base_url+'/api/v2/links', data=payload, headers=headers)
+    if not ((r.status_code == 200) or (r.status_code == 201)):
         err = r.json()
         return {'code': r.status_code, 'data': err}
     else:
@@ -33,7 +33,8 @@ def delete(apikey, target):
     else:
         id = target
 
-    payload = {'id': id}
+    payload = {"id": id}
+
     r = requests.post(base_url+'/api/url/deleteurl', headers=headers, data=payload)
 
     if not r.status_code == 200:
@@ -44,10 +45,9 @@ def delete(apikey, target):
         return {'code': r.status_code, 'data': data}
 
 
-def list(apikey):
+def list(apikey, limit=1):
     headers = {'X-API-Key': apikey}
 
-    r = requests.get(base_url+'/api/url/geturls', headers=headers)
+    r = requests.get(base_url+'/api/v2/links?limit='+str(limit), headers=headers)
     data = r.json()
-    for item in data['list']:
-        return json.dumps(item, indent=2)
+    return data['data']

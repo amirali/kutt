@@ -82,20 +82,13 @@ def config_api():
 def submit(url, customurl, password, reuse):
     response = kutt.submit(API, url, customurl, password, reuse)
     
-    if response['code'] == 200:
+    if (response['code'] == 200) or (response['code'] == 201):
         click.echo('Target: '+response['data']['target'])
 
-        if response['data']['reuse']:
-            click.echo("your target is exists! i show you last object of this target")
-            if response['data']['password']:
-                click.echo("Your url has a password. we don't know what is that.")
-        else:
-            if response['data']['password']:
-                click.echo("Password: "+password)
-            if customurl:
-                click.echo("your url customed to: "+response['data']['id'])
+        if response['data']['password']:
+            click.echo("Your URL is now secured with password")
 
-        click.echo("\nShorted URL is: "+response['data']['shortUrl'])
+        click.echo("\nShorted URL is: "+response['data']['link'])
 
     else:
         click.echo(response['data']['error'])
@@ -110,10 +103,13 @@ def delete(target):
     else:
         click.echo(response['data']['error'])
 
-@click.command('list', short_help="List of last 5 URL objects.")
-def list():
-    response = kutt.list(API)
-    click.echo(response)
+@click.command('list', short_help="List of last URL objects. (default is 1)")
+@click.option('-n', '--number', type=click.INT)
+def list(number):
+    if not number:
+        number = 1
+    response = kutt.list(API, number)
+    click.echo(json.dumps(response, indent=2))
 
 cli.add_command(submit)
 cli.add_command(delete)
