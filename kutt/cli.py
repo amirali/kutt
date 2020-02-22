@@ -43,9 +43,9 @@ def cli():
 
         > kutt delete [URL/ID]
 
-    List(example):
+    Links(example):
 
-        > kutt list
+        > kutt links
     """
     
     
@@ -103,17 +103,17 @@ def delete(target):
     else:
         click.echo(response['data']['error'])
 
-@click.command('list', short_help="List of last URL objects. (default is 1)")
+@click.command('links', short_help="List of last URL objects. (default is 1)")
 @click.option('-n', '--number', type=click.INT)
-def list(number):
+def links(number):
     if not number:
         number = 1
-    response = kutt.list(API, number)
+    response = kutt.links(API, number)
     click.echo(json.dumps(response, indent=2))
 
 cli.add_command(submit)
 cli.add_command(delete)
-cli.add_command(list)
+cli.add_command(links)
 cli.add_command(config_api)
 
 if __name__ == "__main__":

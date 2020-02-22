@@ -53,5 +53,5 @@ obj = kutt.submit(API, "URL", password="OPTIONAL password", customurl="OPTIONAL 
 kutt.delete(API, "URL or ID")
 
 # Get urls list
-list = kutt.list(API)
+links = kutt.links(API)
 ```

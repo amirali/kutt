@@ -45,7 +45,7 @@ def delete(apikey, target):
         return {'code': r.status_code, 'data': data}
 
 
-def list(apikey, limit=1):
+def links(apikey, limit=1):
     headers = {'X-API-Key': apikey}
 
     r = requests.get(base_url+'/api/v2/links?limit='+str(limit), headers=headers)
