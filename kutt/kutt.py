@@ -19,10 +19,10 @@ def submit(apikey, url, customurl=None, password=None, reuse=False):
     r = requests.post(base_url+'/api/url/submit', data=payload, headers=headers)
     if not r.status_code == 200:
         err = r.json()
-        return err
+        return {'code': r.status_code, 'data': err}
     else:
         data = r.json()
-        return data
+        return {'code': r.status_code, 'data': data}
 
 
 def delete(apikey, target):
@@ -38,10 +38,10 @@ def delete(apikey, target):
 
     if not r.status_code == 200:
         err = r.json()
-        return err
+        return {'code': r.status_code, 'data': err}
     else:
-        msg = r.json()
-        return True
+        data = r.json()
+        return {'code': r.status_code, 'data': data}
 
 
 def list(apikey):
@@ -50,4 +50,4 @@ def list(apikey):
     r = requests.get(base_url+'/api/url/geturls', headers=headers)
     data = r.json()
     for item in data['list']:
-        return json.dumps(item)
+        return json.dumps(item, indent=2)

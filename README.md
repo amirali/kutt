@@ -1,7 +1,7 @@
 # Kutt cli
 
-- [CLI](https://github.com/univa64/kutt-cli#cli)
-- [library](https://github.com/univa64/kutt-cli#lib)
+- [CLI](https://github.com/realamirali/kutt-cli#cli)
+- [library](https://github.com/realamirali/kutt-cli#lib)
 
 ## CLI
 

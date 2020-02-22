@@ -5,11 +5,13 @@ import click
 import requests
 import json
 
+from kutt import kutt
+
 base_url = "https://kutt.it"
 try:
     if sys.platform == "win32":
         APPDATA = os.getenv('APPDATA')
-        with open(APPDATA+"kutt-cli\\apikey.txt") as f:
+        with open(APPDATA+'\\kutt-cli\\apikey.txt') as f:
             API = f.read()
             f.close()
     else:
@@ -19,11 +21,8 @@ try:
 except:
     print ("Get an API key from kutt.it and run `kutt config-api`")
 
-try:
-    headers = {"X-API-Key": API}
-except:
-    pass
-    
+
+
 @click.group()
 def cli():
     """
@@ -48,6 +47,8 @@ def cli():
 
         > kutt list
     """
+    
+    
     pass
 
 @click.command()
@@ -79,72 +80,40 @@ def config_api():
 @click.option('-p', '--password', type=click.STRING)
 @click.option('-r', '--reuse', is_flag=True)
 def submit(url, customurl, password, reuse):
-    payload = {}
-    payload['target'] = url
+    response = kutt.submit(API, url, customurl, password, reuse)
+    
+    if response['code'] == 200:
+        click.echo('Target: '+response['data']['target'])
 
-    if customurl:
-        payload['customurl'] = customurl
-    if password:
-        payload['password'] = password
-    if reuse:
-        payload['reuse'] = True
-
-    r = requests.post(base_url+'/api/url/submit', data=payload, headers=headers)
-    if not r.status_code == 200:
-        err = r.json()
-        click.echo(err['error'])
-    else:
-        data = r.json()
-        click.echo('Target: '+data['target'])
-
-        if data['reuse']:
+        if response['data']['reuse']:
             click.echo("your target is exists! i show you last object of this target")
-            if data['password']:
-                click.echo("Your url has a password. we don't know whats that.")
+            if response['data']['password']:
+                click.echo("Your url has a password. we don't know what is that.")
         else:
-            if data['password']:
+            if response['data']['password']:
                 click.echo("Password: "+password)
             if customurl:
-                click.echo("your url customed to: "+data['id'])
+                click.echo("your url customed to: "+response['data']['id'])
 
-        click.echo("\nShorted URL is: "+data['shortUrl'])
+        click.echo("\nShorted URL is: "+response['data']['shortUrl'])
+
+    else:
+        click.echo(response['data']['error'])
 
 @click.command('delete', short_help="Delete a shorted link (Give me url id or url shorted)")
 @click.argument('target', type=click.STRING)
 def delete(target):
-    if "/" in target:
-        id = target.split('/')[-1]
-    else:
-        id = target
+    response = kutt.delete(API, target)
 
-    payload = {'id': id}
-    r = requests.post(base_url+'/api/url/deleteurl', headers=headers, data=payload)
-
-    if not r.status_code == 200:
-        err = r.json()
-        click.echo(err['error'])
+    if response['code'] == 200:
+        click.echo(response['data']['message'])
     else:
-        msg = r.json()
-        click.echo(msg['message'])
+        click.echo(response['data']['error'])
 
 @click.command('list', short_help="List of last 5 URL objects.")
 def list():
-    r = requests.get(base_url+'/api/url/geturls', headers=headers)
-    data = r.json()
-    for item in data['list']:
-        click.echo(json.dumps(item, indent=2))
-        click.echo('\n')
-
-"""TODO: stats
-@click.command('stats', short_help="Status of a url")
-@click.argument('target', type=click.STRING)
-def stats():
-    if "/" in target:
-        id = target.split('/')[-1]
-    else:
-        id = target
-
-"""
+    response = kutt.list(API)
+    click.echo(response)
 
 cli.add_command(submit)
 cli.add_command(delete)
