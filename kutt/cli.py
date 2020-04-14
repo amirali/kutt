@@ -10,7 +10,7 @@ import sys
 
 import fire
 
-import kutt
+from kutt import kutt
 
 class Kutt:
     """
