@@ -1,9 +1,10 @@
-import json
+"""Kutt.it API wrapper"""
 import requests
 
-base_url = "https://kutt.it"
+BASE_URL = "https://kutt.it"
 
 def submit(apikey, url, customurl=None, password=None, reuse=False):
+    """Create a new shorten url object"""
     headers = {'X-API-Key': apikey}
 
     payload = {}
@@ -16,16 +17,13 @@ def submit(apikey, url, customurl=None, password=None, reuse=False):
     if reuse:
         payload['reuse'] = True
 
-    r = requests.post(base_url+'/api/v2/links', data=payload, headers=headers)
-    if not ((r.status_code == 200) or (r.status_code == 201)):
-        err = r.json()
-        return {'code': r.status_code, 'data': err}
-    else:
-        data = r.json()
-        return {'code': r.status_code, 'data': data}
+    res = requests.post(BASE_URL+'/api/v2/links', data=payload, headers=headers)
 
+    data = res.json()
+    return {'code': res.status_code, 'data': data}
 
 def delete(apikey, target):
+    """Delete a shorten url object"""
     headers = {'X-API-Key': apikey}
 
     if "/" in target:
@@ -35,19 +33,16 @@ def delete(apikey, target):
 
     payload = {"id": link_id}
 
-    r = requests.post(base_url+'/api/url/deleteurl', headers=headers, data=payload)
+    res = requests.post(BASE_URL+'/api/url/deleteurl', headers=headers, data=payload)
 
-    if not r.status_code == 200:
-        err = r.json()
-        return {'code': r.status_code, 'data': err}
-    else:
-        data = r.json()
-        return {'code': r.status_code, 'data': data}
+    data = res.json()
+    return {'code': res.status_code, 'data': data}
 
 
 def links(apikey, limit=1):
+    """List last url objects"""
     headers = {'X-API-Key': apikey}
 
-    r = requests.get(base_url+'/api/v2/links?limit='+str(limit), headers=headers)
-    data = r.json()
+    res = requests.get(BASE_URL+'/api/v2/links?limit='+str(limit), headers=headers)
+    data = res.json()
     return data['data']
