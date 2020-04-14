@@ -76,5 +76,6 @@ class Kutt:
         response = kutt.links(self._api, number)
         print(json.dumps(response, indent=2))
 
-if __name__ == "__main__":
+def main():
+    """initilaze"""
     fire.Fire(Kutt)
