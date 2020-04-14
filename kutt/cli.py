@@ -1,122 +1,80 @@
-import sys
-import os
-
-import click
-import requests
+"""
+Kutt.it cli
+Author: Amirali Esfandiari
+License: GPL3
+URL: https://github.com/realamirali/kutt-cli/
+"""
 import json
+import os
+import sys
 
-from kutt import kutt
+import fire
 
-base_url = "https://kutt.it"
-try:
-    if sys.platform == "win32":
-        APPDATA = os.getenv('APPDATA')
-        with open(APPDATA+'\\kutt-cli\\apikey.txt') as f:
-            API = f.read()
-            f.close()
-    else:
-        with open('$HOME/.kutt-cli/apikey.txt') as f:
-            API = f.read()
-            f.close()
-except:
-    print ("Get an API key from kutt.it and run `kutt config-api`")
+import kutt
 
-
-
-@click.group()
-def cli():
+class Kutt:
     """
-    Submit(options):
-
-        -c, --customurl STRING          Custom ID for custom URL
-
-        -p, --password STRING           Password for the URL
-
-        -r, --reuse                     Return last object of target if exists
-
-    Submit(example):
-
-        > kutt submit -c '[CUSTOM]' -p '[PASSWORD]' -r "[URL]"
-
-
-    Delete(example):
-
-        > kutt delete [URL/ID]
-
-    Links(example):
-
-        > kutt links
+    Kutt.it cli
     """
-    
-    
-    pass
-
-@click.command()
-def config_api():
-    pyv = int(sys.version[0])
-    if sys.platform == "win32":
-        APPDATA = os.getenv('APPDATA')
-        if not os.path.exists(APPDATA+"\\kutt-cli"):
-            os.makedirs(APPDATA+"\\kutt-cli")
-        with open(APPDATA+"\\kutt-cli\\apikey.txt", 'w') as f:
-            if pyv < 3:
-                f.write(raw_input("API: "))
+    def __init__(self):
+        try:
+            if sys.platform == "win32":
+                self._app_data = os.getenv('APPDATA')
+                with open(self._app_data+'\\kutt-cli\\apikey.txt') as api_file:
+                    self._api = api_file.read()
+                    api_file.close()
             else:
-                f.write(input("API: "))
-            f.close()
-    elif sys.platform == 'linux':
-        if not os.path.exists("$HOME/.kutt-cli/"):
-            os.makedirs("$HOME/.kutt-cli/")
-        with open('$HOME/.kutt-cli/apikey.txt', 'w') as f:
-            if pyv < 3:
-                f.write(raw_input("API: "))
-            else:
-                f.write(input("API: "))
-            f.close()
+                with open('$HOME/.kutt-cli/apikey.txt') as api_file:
+                    self._api = api_file.read()
+                    api_file.close()
+        except OSError as err:
+            print("Get an api key from kutt.it and run `kutt config-api`")
+            del err
 
-@click.command('submit', short_help="Submit a new short URL")
-@click.argument('url', type=click.STRING)
-@click.option('-c', '--customurl', type=click.STRING)
-@click.option('-p', '--password', type=click.STRING)
-@click.option('-r', '--reuse', is_flag=True)
-def submit(url, customurl, password, reuse):
-    response = kutt.submit(API, url, customurl, password, reuse)
-    
-    if (response['code'] == 200) or (response['code'] == 201):
-        click.echo('Target: '+response['data']['target'])
+    def config_api(self):
+        """Set the API_KEY from kutt.it"""
+        if sys.platform == "win32":
+            if not os.path.exists(self._app_data+"\\kutt-cli"):
+                os.makedirs(self._app_data+"\\kutt-cli")
 
-        if response['data']['password']:
-            click.echo("Your URL is now secured with password")
+            with open(self._app_data+"\\kutt-cli\\apikey.txt", 'w') as api_file:
+                api_file.write(input("API: "))
+                api_file.close()
+        elif sys.platform == 'linux':
+            if not os.path.exists("$HOME/.kutt-cli/"):
+                os.makedirs("$HOME/.kutt-cli/")
 
-        click.echo("\nShorted URL is: "+response['data']['link'])
+            with open('$HOME/.kutt-cli/apikey.txt', 'w') as api_file:
+                api_file.write(input("API: "))
+                api_file.close()
 
-    else:
-        click.echo(response['data']['error'])
+    def submit(self, url, customurl=None, password=None, reuse=None):
+        """Create a new shorten url object"""
+        response = kutt.submit(self._api, url, customurl, password, reuse)
+        if (response['code'] == 200) or (response['code'] == 201):
+            print('Target: '+response['data']['target'])
 
-@click.command('delete', short_help="Delete a shorted link (Give me url id or url shorted)")
-@click.argument('target', type=click.STRING)
-def delete(target):
-    response = kutt.delete(API, target)
+            if response['data']['password']:
+                print("Your URL is now secured with password")
 
-    if response['code'] == 200:
-        click.echo(response['data']['message'])
-    else:
-        click.echo(response['data']['error'])
+            print("\nShorted URL is: "+response['data']['link'])
 
-@click.command('links', short_help="List of last URL objects. (default is 1)")
-@click.option('-n', '--number', type=click.INT)
-def links(number):
-    if not number:
-        number = 1
-    response = kutt.links(API, number)
-    click.echo(json.dumps(response, indent=2))
+        else:
+            print(response['data']['error'])
 
-cli.add_command(submit)
-cli.add_command(delete)
-cli.add_command(links)
-cli.add_command(config_api)
+    def delete(self, target):
+        """Delete an object"""
+        response = kutt.delete(self._api, target)
+
+        if response['code'] == 200:
+            print(response['data']['message'])
+        else:
+            print(response['data']['error'])
+
+    def links(self, number=5):
+        """Show your last created links (default 5)"""
+        response = kutt.links(self._api, number)
+        print(json.dumps(response, indent=2))
 
 if __name__ == "__main__":
-
-
-    cli()
+    fire.Fire(Kutt)
