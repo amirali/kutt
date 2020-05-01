@@ -15,7 +15,7 @@ def submit(apikey, url, customurl=None, password=None, reuse=False):
     if password:
         payload['password'] = password
     if reuse:
-        payload['reuse'] = True
+        payload['reuse'] = 'true'
 
     res = requests.post(BASE_URL+'/api/v2/links', data=payload, headers=headers)
 
