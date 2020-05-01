@@ -1,6 +1,7 @@
 .PHONY: clean-pyc clean-build clean
 
 PY = python3
+PIP = pip3
 
 help:
 	@echo "clean - remove all build, pyc"
@@ -9,6 +10,7 @@ help:
 	@echo "dist - packaging"
 	@echo "install - install by setup.py file local"
 	@echo "release - packaging and upload as release"
+	@echo "dev - install for development environment"
 
 clean: clean-build clean-pyc
 
@@ -30,8 +32,12 @@ dist: clean
 	ls -l dist/
 
 release: clean
-	${PY} setup.py sdist upload
-	${PY} setup.py bdist_wheel upload
+	${PY} setup.py sdist bdist_wheel
+	twine upload dist/*
 
 install: clean
 	${PY} setup.py install
+
+dev: clean
+	pip install twine setuptools wheel
+	${PIP} install --editable .
