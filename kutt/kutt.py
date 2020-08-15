@@ -3,7 +3,7 @@ import requests
 
 BASE_URL = "https://kutt.it"
 
-def submit(apikey, url, customurl=None, password=None, reuse=False):
+def submit(apikey, url, customurl=None, password=None, reuse=False, host_url=BASE_URL):
     """Create a new shorten url object"""
     headers = {'X-API-Key': apikey}
 
@@ -17,12 +17,12 @@ def submit(apikey, url, customurl=None, password=None, reuse=False):
     if reuse:
         payload['reuse'] = 'true'
 
-    res = requests.post(BASE_URL+'/api/v2/links', data=payload, headers=headers)
+    res = requests.post(host_url+'/api/v2/links', data=payload, headers=headers)
 
     data = res.json()
     return {'code': res.status_code, 'data': data}
 
-def delete(apikey, target):
+def delete(apikey, target, host_url=BASE_URL):
     """Delete a shorten url object"""
     headers = {'X-API-Key': apikey}
 
@@ -33,16 +33,16 @@ def delete(apikey, target):
 
     payload = {"id": link_id}
 
-    res = requests.post(BASE_URL+'/api/url/deleteurl', headers=headers, data=payload)
+    res = requests.post(host_url+'/api/url/deleteurl', headers=headers, data=payload)
 
     data = res.json()
     return {'code': res.status_code, 'data': data}
 
 
-def links(apikey, limit=1):
+def links(apikey, limit=1, host_url=BASE_URL):
     """List last url objects"""
     headers = {'X-API-Key': apikey}
 
-    res = requests.get(BASE_URL+'/api/v2/links?limit='+str(limit), headers=headers)
+    res = requests.get(host_url+'/api/v2/links?limit='+str(limit), headers=headers)
     data = res.json()
     return data['data']
