@@ -1,8 +1,8 @@
 """
 Kutt.it cli
 Author: Amirali Esfandiari
-License: GPL3
-URL: https://github.com/realamirali/kutt-cli/
+License: MIT
+URL: https://github.com/realamirali/kutt/
 """
 import json
 import os
