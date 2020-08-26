@@ -22,7 +22,14 @@ API = "YOUR_API_KEY"
 
 # For submit a new URL
 # obj variable has url object data (read the https://github.com/thedevs-network/kutt#api document)
-obj = kutt.submit(API, "URL", password="OPTIONAL password", customurl="OPTIONAL customurl", reuse=True, host_url="OPTIONAL host url") # reuse, customurl and password are OPTIONAL
+obj = kutt.submit(
+    API,
+    "URL",
+    password="OPTIONAL password",
+    customurl="OPTIONAL customurl",
+    domain="OPTIONAL custom domain',
+    reuse=True, # OPTIONAL
+    host_url="OPTIONAL host url")
 
 # For delete a URL
 kutt.delete(API, "URL or ID", host_url="OPTIONAL host url")
