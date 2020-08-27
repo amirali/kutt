@@ -139,10 +139,10 @@ class Kutt:
             with open(self._home+'/.kutt-cli/config.toml', 'w') as config_file:
                 config_file.write(toml.dumps(config))
 
-    def submit(self, url, customurl=None, password=None, reuse=None):
+    def submit(self, url, customurl=None, password=None, domain=None, reuse=None):
         """Create a new shorten url object"""
         response = kutt.submit(apikey=self._api, url=url, customurl=customurl,
-                               password=password, reuse=reuse, host_url=self._host_url)
+                               password=password, domain=domain, reuse=reuse, host_url=self._host_url)
         if (response['code'] == 200) or (response['code'] == 201):
             print('Target: '+response['data']['target'])
 
