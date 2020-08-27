@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name='kutt',
-    version='1.3.1',
+    version='1.3.2',
     description='API wrapper and CLI for kutt.it',
     author='Amirali Esfandiari',
     author_email='amiralinull@gmail.com',
