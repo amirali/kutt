@@ -3,7 +3,7 @@ import requests
 
 BASE_URL = "https://kutt.it"
 
-def submit(apikey, url, customurl=None, password=None, reuse=False, host_url=BASE_URL):
+def submit(apikey, url, customurl=None, domain=None, password=None, reuse=False, host_url=BASE_URL):
     """Create a new shorten url object"""
     headers = {'X-API-Key': apikey}
 
@@ -14,6 +14,8 @@ def submit(apikey, url, customurl=None, password=None, reuse=False, host_url=BAS
         payload['customurl'] = customurl
     if password:
         payload['password'] = password
+    if domain:
+        payload['domain'] = domain
     if reuse:
         payload['reuse'] = 'true'
 
