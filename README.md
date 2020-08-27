@@ -27,7 +27,7 @@ obj = kutt.submit(
     "URL",
     password="OPTIONAL password",
     customurl="OPTIONAL customurl",
-    domain="OPTIONAL custom domain',
+    domain="OPTIONAL custom domain",
     reuse=True, # OPTIONAL
     host_url="OPTIONAL host url")
 
