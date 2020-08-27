@@ -6,7 +6,7 @@ setup(
     description='API wrapper and CLI for kutt.it',
     author='Amirali Esfandiari',
     author_email='amiralinull@gmail.com',
-    url='http://github.com/realamirali/kutt-cli',
+    url='http://github.com/realamirali/kutt',
     py_modules=['kutt'],
     install_requires=['fire', 'requests', 'toml'],
     packages=['kutt'],
