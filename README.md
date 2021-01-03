@@ -35,5 +35,5 @@ obj = kutt.submit(
 kutt.delete(API, "URL or ID", host_url="OPTIONAL host url")
 
 # Get urls list
-links = kutt.links(API, host_url="OPTIONAL host url")
+links = kutt.links(API, host_url="OPTIONAL host url", limit=[limit number or "all"])
 ```
