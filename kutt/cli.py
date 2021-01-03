@@ -163,9 +163,9 @@ class Kutt:
         else:
             print(response['data']['error'])
 
-    def links(self, number=5):
+    def links(self, limit=5):
         """Show your last created links (default 5)"""
-        response = kutt.links(apikey=self._api, number=number, host_url=self._host_url)
+        response = kutt.links(apikey=self._api, limit=limit, host_url=self._host_url)
         print(json.dumps(response, indent=2))
 
 def main():

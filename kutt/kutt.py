@@ -45,6 +45,11 @@ def links(apikey, limit=1, host_url=BASE_URL):
     """List last url objects"""
     headers = {'X-API-Key': apikey}
 
-    res = requests.get(host_url+'/api/v2/links?limit='+str(limit), headers=headers)
+    if limit == "all":
+        res = requests.get(host_url+'/api/v2/links?all=true', headers=headers)
+
+    else:
+        res = requests.get(host_url+'/api/v2/links?limit='+str(limit), headers=headers)
+
     data = res.json()
     return data['data']
