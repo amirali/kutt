@@ -25,15 +25,25 @@ API = "YOUR_API_KEY"
 obj = kutt.submit(
     API,
     "URL",
+    description="OPTIONAL description",
+    expire_in="OPTIONAL expire time",
     password="OPTIONAL password",
     customurl="OPTIONAL customurl",
     domain="OPTIONAL custom domain",
     reuse=True, # OPTIONAL
-    host_url="OPTIONAL host url")
+    )
 
 # For delete a URL
-kutt.delete(API, "URL or ID", host_url="OPTIONAL host url")
+kutt.delete(API, "ID")
+
+
+# update a URL 
+kutt.update(API, "ID", "URL", "address", description="OPTIONAL description", expire_in="OPTIONAL expire time")
+
 
 # Get urls list
-links = kutt.links(API, host_url="OPTIONAL host url", limit=[limit number or "all"])
+links = kutt.links(API, limit=10, skip=0)
+
+# Get url stats
+stats = kutt.stats(API, "ID")
 ```
