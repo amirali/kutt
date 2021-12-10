@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name='kutt',
-    version='1.3.3',
+    version='1.4.0',
     description='API wrapper and CLI for kutt.it',
     author='Amirali Esfandiari',
     author_email='amiralinull@gmail.com',
@@ -13,7 +13,7 @@ setup(
     package_dir={'kutt': 'kutt'},
     python_requires='>=3',
     classifiers=[
-        'License :: OSI Approved :: MIT License',
+        'License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)',
 
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.5',
@@ -21,6 +21,7 @@ setup(
         'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3.8',
         'Programming Language :: Python :: 3.9',
+        'Programming Language :: Python :: 3.10',
         ],
     entry_points = '''
         [console_scripts]
