@@ -29,6 +29,7 @@ obj = kutt.submit(
     expire_in="OPTIONAL expire time",
     password="OPTIONAL password",
     customurl="OPTIONAL customurl",
+    description="OPTIONAL desciption",
     domain="OPTIONAL custom domain",
     reuse=True, # OPTIONAL
     )
