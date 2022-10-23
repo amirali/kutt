@@ -1,5 +1,7 @@
 # Kutt cli
 
+![](https://img.shields.io/pypi/v/kutt)
+
 - [CLI](https://github.com/realamirali/kutt-cli#cli)
 - [library](https://github.com/realamirali/kutt-cli#lib)
 
