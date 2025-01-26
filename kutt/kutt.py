@@ -8,7 +8,6 @@ def submit(apikey, url, description=None, expire_in=None, password=None, customu
     headers = {'X-API-Key': apikey}
 
     payload = {'target': url, 'description' : description, 'expire_in' : expire_in, 'password' : password, 'customurl' : customurl, 'reuse' : json.dumps(reuse), 'domain' : domain}
-    print(payload)
     res = requests.post(host_url, data=payload, headers=headers)
 
     data = res.json()
