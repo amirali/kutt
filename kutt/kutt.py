@@ -1,13 +1,14 @@
 """Kutt.it API wrapper"""
 import requests
-
+import json
 BASE_URL = "https://kutt.it/api/v2/links"
 
 def submit(apikey, url, description=None, expire_in=None, password=None, customurl=None, reuse=False, domain=None, host_url=BASE_URL):
     """Create a new shorten url object"""
     headers = {'X-API-Key': apikey}
 
-    payload = {'target': url, 'description' : description, 'expire_in' : expire_in, 'password' : password, 'customurl' : customurl, 'reuse' : reuse, 'domain' : domain}
+    payload = {'target': url, 'description' : description, 'expire_in' : expire_in, 'password' : password, 'customurl' : customurl, 'reuse' : json.dumps(reuse), 'domain' : domain}
+    print(payload)
     res = requests.post(host_url, data=payload, headers=headers)
 
     data = res.json()
