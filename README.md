@@ -2,8 +2,11 @@
 
 ![](https://img.shields.io/pypi/v/kutt)
 
-- [CLI](https://github.com/realamirali/kutt-cli#cli)
-- [library](https://github.com/realamirali/kutt-cli#lib)
+⚠️ This repo will be archived until further notice.  
+Long story short, I had some ideas about contributing to kutt itself and update this repo as it goes on. But for the past months, I could find the time nor energy to do it. If you are willing to maintain this repo, contact me via [email](mailto:amiralinull+kutt@gmail.com) to discuss the ideas and transfer the ownership.
+
+- [CLI](https://github.com/amirali/kutt#cli)
+- [library](https://github.com/amirali/kutt#lib)
 
 ## CLI
 
